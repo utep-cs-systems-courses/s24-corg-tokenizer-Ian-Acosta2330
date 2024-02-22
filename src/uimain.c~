@@ -1,0 +1,11 @@
+#include <stdio.h>
+
+int main(){
+
+  char c;
+  while(1) {  
+    printf("$ %c",c= getchar());
+    if (c==' ') break;
+  }
+  
+}
