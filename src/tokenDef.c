@@ -16,33 +16,52 @@ int non_space_char(char c) {
 }
 
 char *token_start(char *str) {
-  char *s;
-  int x = 0; //0 if no Space, 1 if Space
-  for (s=str; *s; s++) {
-    if(non_space_char(*s)==0){
+  while(*str) {
+    if(space_char(*str)) {
+      str++;
+    }
+    else {
+      // printf("%c\n", *str);
+      return str;
+    }
+  }
+  return 0;
       //printf("%c\n", *s); Outputs individual characters of string
       //printf("%d\n",*s); Outputs ascii of char
       //return &*s;
-      x = 1;
-    }
-  }
-  if(x==1) {
-    for(s=str;*s;s++) {
-      if(non_space_char(*s)==1) {
-	return &*s;
-      }
-    }
-  }else {
-    return 0;
-  }
- 
 }
 char *token_terminator(char *token) {
-  
+  while(*token) {
+    if(non_space_char(*token)){
+      //printf("%c\n", *token);
+      token++;
+    } else {
+      return token;
+    }
+  }
+  return NULL;
 }
 
 int count_tokens(char *str) {
+  char *s;
+  char *t;
   
+  int count = 0;
+  
+  while(*str) {
+    s = token_start(str);
+    //printf("%c\n", *s);
+    t = token_terminator(s);
+    //printf("%d\n", space_char(*t));
+    if( !(s==0) ) {
+      count++;
+    }
+    // printf("%d\n",count);
+    if(t==NULL) {
+      return count;
+    }
+    str=t;
+  }
 }
 char *copy_str(char *inStr, short len);
 
@@ -54,10 +73,11 @@ void free_tokens(char **tokens);
 
 int main() {
   char c = ' ';
-  char *str = "He llo";
+  char *str = "He llo asb";
   printf("%d\n", space_char(c));// 1 = True | 0 = False
   printf("%d\n", non_space_char(c));//1 -> NOT a space, 0->IS a space
   printf("%p\n", token_start(str));// Returns pointer of space
-  // printf("%p\n", token_terminator());
+  printf("%p\n", token_terminator(token_start(str)));
   printf("%d\n", count_tokens(str));
+  
 }
