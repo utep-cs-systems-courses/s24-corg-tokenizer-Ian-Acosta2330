@@ -90,5 +90,7 @@ int main() {
   char *copyTest = copy_str(str,length);
   printf("%s\n",copyTest);
   free(copyTest); //Free the memory!
+
+
   return 0;
 }
