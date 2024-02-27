@@ -1,0 +1,12 @@
+
+OBJS=
+
+CFLAGS=-g -03
+
+all: tokenDef
+
+clean:
+	rm -f *.o
+
+run: make
+	./make
