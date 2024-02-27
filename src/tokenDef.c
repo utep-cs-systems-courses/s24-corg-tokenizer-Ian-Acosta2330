@@ -1,5 +1,5 @@
 #include "tokenizer.h"
-#include <stdio.h>
+#include "stdio.h"
 #include "stdlib.h"
 
 int space_char(char c) {
@@ -56,7 +56,7 @@ int count_tokens(char *str) {
       count++;
     }
     // printf("%d\n",count);
-    if(t==NULL) {
+    if (t==NULL) {
       return count;
     }
     str=t;
@@ -71,24 +71,64 @@ char *copy_str(char *inStr, short len) {
   return newStr;
 }
 
-char **tokenize(char* str);
+char **tokenize(char* str){
+  char **tokensOfWord=(char**)malloc(100*sizeof(char*));
+  if (tokensOfWord == NULL) { exit(1); }
 
-void print_tokens(char **tokens);
+  char *token;
+  char *t;
+  int i = 0;
+  int lenStr;
+  int token_count = count_tokens(str);
+  while (i < token_count) {
+    token = token_start(str);
+    t = token_terminator(token);
+    lenStr = 0;
+    while (token[lenStr] !=' ') {
+      lenStr++;
+    }
+    tokensOfWord[i] = (char *)malloc((lenStr+1)*sizeof(char));
+    tokensOfWord[i] = copy_str(token, lenStr);
+    str = t;
+    i++;
+  }
 
-void free_tokens(char **tokens);
+  tokensOfWord[token_count] = NULL;
+  
+  return tokensOfWord;
+}
 
+void print_tokens(char **tokens) {
+  for(int i = 0; tokens[i] != NULL; i++) {
+    printf("%s\n", tokens[i]);
+  }
+}
+
+void free_tokens(char **tokens) {
+  for(int i = 0; tokens[i]!= NULL; i++) {
+    free(tokens[i]);
+  }
+  free(tokens);
+}
+
+//little silly main to test out the methods
 int main() {
   char c = ' ';
-  char *str = "Hello World";
+  char *str = "thi s is hel l";
   printf("%d\n", space_char(c));// 1 = True | 0 = False
   printf("%d\n", non_space_char(c));//1 -> NOT a space, 0->IS a space
   printf("%p\n", token_start(str));// Returns pointer of first non_space char
   printf("%p\n", token_terminator(token_start(str)));//Returns pointer of space of token ' '
   printf("%d\n", count_tokens(str));// Counts the tokens! :D
 
-  int length = 3;
-  char *copyTest = copy_str(str,length);
-  printf("%s\n",copyTest);
-  free(copyTest); //Free the memory!
+  int length = 8;
+  char *newStr = copy_str(str,length);
+  printf("CopyTest method: %s\n", newStr);//Returns pointer to terminated copy of passed str
+  char **tokensOfWord = tokenize(str);
+
+  print_tokens(tokensOfWord);
+  free_tokens(tokensOfWord);
+  free(newStr);
+  
   return 0;
 }
