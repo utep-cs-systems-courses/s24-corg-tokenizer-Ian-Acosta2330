@@ -64,7 +64,10 @@ int count_tokens(char *str) {
 }
 char *copy_str(char *inStr, short len) {
   char *newStr = (char *)malloc((len+1)*sizeof(char));
-  for(int i=0;i<len;i++) {
+  if(newStr == NULL) {
+    return NULL;
+  }
+  for(int i=0;i<len && inStr[i] != '\0';i++) {
     newStr[i] = inStr[i];
   }
   newStr[len]='\0';
@@ -73,6 +76,7 @@ char *copy_str(char *inStr, short len) {
 
 char **tokenize(char* str){
   char **tokensOfWord=(char**)malloc(100*sizeof(char*));
+
   if (tokensOfWord == NULL) { exit(1); }
 
   char *token;
@@ -92,9 +96,8 @@ char **tokenize(char* str){
     str = t;
     i++;
   }
-
-  tokensOfWord[token_count] = NULL;
   
+  tokensOfWord[token_count] = NULL;  
   return tokensOfWord;
 }
 
@@ -114,14 +117,14 @@ void free_tokens(char **tokens) {
 //little silly main to test out the methods
 int main() {
   char c = ' ';
-  char *str = "thi s is hel l";
+  char *str = "this is h ell";
   printf("%d\n", space_char(c));// 1 = True | 0 = False
   printf("%d\n", non_space_char(c));//1 -> NOT a space, 0->IS a space
   printf("%p\n", token_start(str));// Returns pointer of first non_space char
   printf("%p\n", token_terminator(token_start(str)));//Returns pointer of space of token ' '
   printf("%d\n", count_tokens(str));// Counts the tokens! :D
 
-  int length = 8;
+  int length = 6;
   char *newStr = copy_str(str,length);
   printf("CopyTest method: %s\n", newStr);//Returns pointer to terminated copy of passed str
   char **tokensOfWord = tokenize(str);
