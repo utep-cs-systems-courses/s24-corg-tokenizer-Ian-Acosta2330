@@ -15,7 +15,7 @@ To learn about text formatting using markdown, we encourage you to examine
 The tokenizer project should be able to receive a string from the user
 and separate via whitespaces.
 
-## Methods
+## Methods for tokenizer.c
 
 ### space_char
 
@@ -55,3 +55,28 @@ Prints all the tokens of the char pointer-to-pointer
 ### free_tokens
 
 Frees the allocated memory tokens
+
+## Methods for history.c
+
+## init_history
+
+Initializes an empty List with the root pointing to NULL
+
+## add_history
+
+Used to append an item to the linked list. Utilizes variable 'tempItem" to
+store new information to be added. 'temp' variable is meant to avoid moving
+the actual list along, serves as a copy of whats currently in the list.
+
+## get_history
+
+Retrieves specific node from user specified id. Otherwise, just returns n/a.
+
+## print_history
+
+Prints the entire linked list with the ID and its corresponding string.
+
+## free_history
+
+Frees up the space that was allocated with each Item in the linked list as
+well as the list itself. 
