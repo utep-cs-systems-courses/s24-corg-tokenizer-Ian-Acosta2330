@@ -101,7 +101,8 @@ char **tokenize(char* str){
 
 void print_tokens(char **tokens) {
   for(int i = 0; tokens[i] != NULL; i++) {
-    printf("%s\n", tokens[i]);
+     printf("%s", tokens[i]);\
+     if(tokens[i+1] != NULL) { printf("\n");}
   }
 }
 
@@ -113,6 +114,7 @@ void free_tokens(char **tokens) {
 }
 
 //little silly main to test out the methods
+/*
 int main() {
   char c = ' ';
   char *str = "this is h ell";
@@ -132,4 +134,4 @@ int main() {
   free(newStr);
   
   return 0;
-}
+}*/

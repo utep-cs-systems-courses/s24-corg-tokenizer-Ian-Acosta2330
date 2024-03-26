@@ -1,6 +1,7 @@
 #include "history.h"
 #include "stdio.h"
 #include "stdlib.h"
+//#include "tester.c"
 
 List* init_history() {
   List *li =(List*)malloc(sizeof(List));
@@ -9,54 +10,65 @@ List* init_history() {
 }
 
 void add_history(List *list, char *str) {
+  //  printf("\nCalling add_history");
   Item *tempItem = (Item*)malloc(sizeof(Item));
   Item *temp = list->root;
   int id = 0;
-  tempItem->id = id;
   tempItem->str = str;
   if(list->root == NULL) {
-    printf("root is null\n");
-    list->root = tempItem;
+    //printf("\nRoot is null");
     tempItem->next = NULL;
+    tempItem->id = id;
+    list->root = tempItem;
+    //list->root->next = NULL;
     // list->root = str;
   } else {
+    id++;
     while(temp->next != NULL) {
-      printf("Have yet to reach the end\n");
+      // printf("\nRoot is not null\n");
+      if(temp->next == NULL) {
+	break;
+      }
       temp = temp->next;
       id++;
+      // printf("\nId: %d", id);
     }
-    temp->next = tempItem;
+    //printf("Out of while");
     tempItem->next = NULL;
+    tempItem->id = id;
+    temp->next = tempItem;
+    //tempItem->str = str;
   }
+  // tempItem->str = str;
+  //tempItem->id = id;
 }
 
 char *get_history(List *list, int id) {
-  // return list->id;
-  
+  // printf("\nCalling get history");
+  Item *temp = list->root;
+  while(temp != NULL) {
+    if(temp->id == id) { return temp->str; }
+    else { temp = temp->next; }
+   }
+  return "n/a";
 }
 
 void print_history(List *list) {
-  printf("Calling print history\n");
-  while(!(list->root == NULL)) {
-    printf("\nIn the loop ");
-    printf("%s\n", list->root->str);
-    list->root = list->root->next;
-  }
-  
+  // printf("\nCalling print history");
+  Item *temp = list->root;
+  while(temp != NULL) {
+    // printf("\nIn the loop ");
+    printf("ID: %d, String: %s\n",temp->id,temp->str);
+    temp = temp->next;
+  }  
 }
 
 void free_history(List *list){
+  Item *temp = list->root;
+  while(temp != NULL){
+    free(list->root);
+    temp=temp->next;
+    list->root = list->root->next;
+  }
   free(list);
-}
-
-int main() {
-  //  Item *i1 = (Item*)malloc(sizeof(Item));
-  //  Item *i2 = (Item*)malloc(sizeof(Item));
-  List *l;
-  char *c = "abc"; 
-  l = init_history();
-  add_history(l,c);
-  char *c1 = "dbe";
-  add_history(l, c1);
-  print_history(l);
 }

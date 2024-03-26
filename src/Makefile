@@ -1,16 +1,21 @@
-OBJS=tokenizer.o history.o  uimain.o
-CFLAGS=-g -03
-all: tokenize
+OBJS = history.o tokenizer.o uimain.o
 
-tokenize: $(OBJS)
-	cc -o tokenize $(CFLAGS)$(OBJS)
-	cc -o history
+CFLAGS= -g -O3
 
-$(OBJS): tokenizer.h history.h
+all: uimain
+
+tokenizer.o:tokenizer.h
+history.o:history.h
+uimain.o:uimain.c history.h tokenizer.h
+
+uimain: $(OBJS)
+	cc -o $@ $^ $(CFLAGS)
+
+%.o: %.c
+	gcc $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.o tokenize
-	rm -f *.o history
+	rm -f *.o *.c# *.c~ uimain
 
-run: tokenize
-	./tokenize
+run: uimain
+	./uimain
